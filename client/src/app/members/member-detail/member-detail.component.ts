@@ -29,13 +29,11 @@ export class MemberDetailComponent implements OnInit{
         preview:false
       }
     ]
-
-    this.galleryImages = this.getImages();
     
   }
 
   getImages(){
-    if(this.member) return [];
+    if(!this.member) return [];
     const imageUrls = [];
     for (const photo of this.member.photos) {
       imageUrls.push({
@@ -51,7 +49,10 @@ export class MemberDetailComponent implements OnInit{
     var username = this.route.snapshot.paramMap.get('username');
     if(!username) return;
     this.memberService.getMember(username).subscribe({
-      next: member => this.member = member
+      next: member =>{
+        this.member = member;
+        this.galleryImages = this.getImages();
+      } 
     })
   }
 }
