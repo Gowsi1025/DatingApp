@@ -18,6 +18,7 @@ export class MemberEditComponent implements OnInit {
   constructor(private accountService: AccountService, private memberService:MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => this.user = user
+       
     })
   }
 
@@ -30,6 +31,7 @@ export class MemberEditComponent implements OnInit {
     if(!this.user) return;
     this.memberService.getMember(this.user.username).subscribe({
       next: member => this.member = member
+      
     })
   }
 
