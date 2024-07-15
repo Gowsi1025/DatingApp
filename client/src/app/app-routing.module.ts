@@ -9,14 +9,15 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
-import { AuthGuard } from './_guards/auth.guard';
+
+import { authGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: '',
       runGuardsAndResolvers: 'always',
-      canActivate: [AuthGuard],
+      canActivate: [authGuard],
       children:[
         {path: 'members', component: MemberListComponent},
         {path: 'members/:username', component: MemberDetailComponent},
