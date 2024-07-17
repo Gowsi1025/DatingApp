@@ -1,13 +1,17 @@
 import { Component,  OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-member-detail',
-  templateUrl: './member-detail.component.html',
-  styleUrls: ['./member-detail.component.css']
+    selector: 'app-member-detail',
+    templateUrl: './member-detail.component.html',
+    styleUrls: ['./member-detail.component.css'],
+    standalone: true,
+    imports: [NgIf, TabsModule, NgxGalleryModule]
 })
 export class MemberDetailComponent implements OnInit{
  member: Member | undefined;
