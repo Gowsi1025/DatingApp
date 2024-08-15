@@ -34,7 +34,7 @@ export class MemberDetailComponent implements OnInit{
     for (const photo of this.member.photos) {
       this.images.push(new ImageItem({src: photo.url, thumb: photo.url}))
     }
-    return this.images
+  
   
   }
 
