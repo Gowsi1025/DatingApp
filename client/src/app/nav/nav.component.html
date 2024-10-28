@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
   <div class="container">
     <a class="navbar-brand" routerLink="/" routerLinkActive="active">Dating App</a>
     
@@ -23,7 +23,7 @@
 
       <div class="dropdown" *ngIf="(accountService.currentUser()) as user" dropdown>
         <img src="{{user.photoUrl || './assets/user.png'}}" alt="user-photo">
-        <a class="dropdowm-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.userName | titlecase}}</a>
+        <a class="dropdowm-toggle text-light text-decoration-n  one ms-2" dropdownToggle>Welcome {{user.knownAs}}</a>
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a  class="dropdown-item" routerLink="/member/edit">Edit profile</a>
           <a  class="dropdown-item" (click)="logout()">Logout</a>

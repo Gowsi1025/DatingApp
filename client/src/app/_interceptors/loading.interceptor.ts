@@ -10,7 +10,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   busyService.busy();
 
   return next(req).pipe(
-    (environment.production ? identity : delay(1000)),
+    delay(1000),
     finalize(() => {
       busyService.idle()
     })

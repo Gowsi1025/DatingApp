@@ -6,14 +6,14 @@ import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { NgIf, AsyncPipe, TitleCasePipe } from '@angular/common';
+import { NgIf, AsyncPipe} from '@angular/common';
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     styleUrls: ['./nav.component.css'],
     standalone: true,
-    imports: [RouterLink, RouterLinkActive, NgIf, BsDropdownModule, FormsModule, AsyncPipe, TitleCasePipe]
+    imports: [RouterLink, RouterLinkActive, NgIf, BsDropdownModule, FormsModule, AsyncPipe]
 })
 export class NavComponent implements OnInit {
 
