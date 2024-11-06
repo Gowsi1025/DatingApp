@@ -2,6 +2,7 @@ using System;
 using API.DTOs;
 using API.entities;
 using API.Extentions;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace API.Controllers;
 
 public class LikesController(ILikesRepositary likesRepositary) : BaseApiController
 {
-    [HttpPost("{targetUserId: int}")]
+    [HttpPost("{targetUserId:int}")]
 
     public async Task<IActionResult> ToggleLike(int targetUserId)
     {
@@ -33,7 +34,7 @@ public class LikesController(ILikesRepositary likesRepositary) : BaseApiControll
 
         if (await likesRepositary.SaveChanges()) return Ok();
 
-        return BadRequest("Failed to upload");
+        return BadRequest("Failed to update like");
     }
 
     [HttpGet("list")]
@@ -45,9 +46,13 @@ public class LikesController(ILikesRepositary likesRepositary) : BaseApiControll
 
     [HttpGet]
 
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUserLikes(string predicate)
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUserLikes([FromQuery]LikesParams likesParams)
     {
-        var users = await likesRepositary.GetUserLikes(predicate, User.GetUserId());
+
+        likesParams.UserId = User.GetUserId();
+        var users = await likesRepositary.GetUserLikes(likesParams);
+
+        Response.AddPaginationHeader(users);
 
         return Ok(users);
     }
