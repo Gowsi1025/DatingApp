@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241107061753_MessageEntityAdded")]
+    [Migration("20241114132006_MessageEntityAdded")]
     partial class MessageEntityAdded
     {
         /// <inheritdoc />
@@ -85,14 +85,14 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("MessageSent")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ResipientDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("RecipientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RecipientUsername")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("ResipientDeleted")
-                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("INTEGER");

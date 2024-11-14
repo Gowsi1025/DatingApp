@@ -82,14 +82,14 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("MessageSent")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ResipientDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("RecipientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RecipientUsername")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("ResipientDeleted")
-                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("INTEGER");

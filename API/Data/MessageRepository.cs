@@ -4,6 +4,7 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
@@ -32,18 +33,35 @@ public class MessageRepository(DataContext context, IMapper mapper) : IMessageRe
             
         query = messageParams.Container switch
         {
-            "Inbox" => query.Where(x => x.RecipientUsername == messageParams.Username),
-            "Outbox" => query.Where(x => x.SenderUsername == messageParams.Username),
-            _ => query.Where(x => x.RecipientUsername == messageParams.Username && x.DateRead == null)
+            "Inbox" => query.Where(x => x.RecipientUsername == messageParams.Username && x.ResipientDeleted == false),
+            "Outbox" => query.Where(x => x.SenderUsername == messageParams.Username && x.SenderDeleted == false),
+            _ => query.Where(x => x.RecipientUsername == messageParams.Username &&  x.DateRead == null && x.ResipientDeleted == false),
         };
 
         var messages = query.ProjectTo<MessageDto>(mapper.ConfigurationProvider);
         return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
     }
 
-    public Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recepientUsername)
+    public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recepientUsername)
     {
-        throw new NotImplementedException();
+        var messages = await context.Messages
+            .Include(x => x.Sender).ThenInclude(x => x.Photos)
+            .Include(x => x.Recipient).ThenInclude(x => x.Photos)
+            .Where(x => 
+                x.RecipientUsername == currentUsername && x.ResipientDeleted == false && x.SenderUsername == recepientUsername ||
+                x.SenderUsername == currentUsername && x.SenderDeleted == false && x.RecipientUsername == recepientUsername
+                )
+            .OrderBy(x => x.MessageSent)
+            .ToListAsync();
+        var unreadMessages = messages.Where(x => x.DateRead == null &&
+            x.RecipientUsername == currentUsername).ToList();
+        if (unreadMessages.Count != 0)
+        {
+            unreadMessages.ForEach(x => x.DateRead = DateTime.UtcNow);
+            await context.SaveChangesAsync();
+        }
+
+        return mapper.Map<IEnumerable<MessageDto>>(messages);
     }
 
     public async Task<bool> SaveAllAsync()
