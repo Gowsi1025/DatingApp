@@ -6,7 +6,6 @@ namespace API.entities
 {
     public class AppUser : IdentityUser<int>
     {
-        public string Username { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string KnownAs { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;

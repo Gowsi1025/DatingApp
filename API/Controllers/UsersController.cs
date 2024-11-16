@@ -79,7 +79,7 @@ namespace API.Controllers
             if(await _userRepository.SaveAllAsync())  
             {
                 return CreatedAtAction(nameof(GetUser), 
-                new {username = user.Username}, _mapper.Map<PhotoDto>(photo));
+                new {username = user.UserName}, _mapper.Map<PhotoDto>(photo));
 
             }
 

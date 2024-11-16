@@ -33,7 +33,7 @@ namespace API.Controllers
 
             using var hmac = new HMACSHA512();
 
-            user.Username = registerDto.Username.ToLower();
+            user.UserName = registerDto.Username.ToLower();
             
 
             _context.Users.Add(user);
@@ -41,7 +41,7 @@ namespace API.Controllers
 
             return new UserDto
             {
-                UserName = user.Username,
+                UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 KnownAs = user.KnownAs,
@@ -53,14 +53,14 @@ namespace API.Controllers
         {
             var user = await _context.Users
                 .Include(p => p.Photos)
-                .SingleOrDefaultAsync(x => x.Username == loginDto.Username);
+                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             if (user == null) return Unauthorized("invalid user");
 
 
             return new UserDto
             {
-                UserName = user.Username,
+                UserName = user.UserName,
                 KnownAs = user.KnownAs,
                 Token = _tokenService.CreateToken(user),
                 Gender = user.Gender,
@@ -71,7 +71,7 @@ namespace API.Controllers
         }
         private async Task<bool> UserExists(string username)
         {
-            return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
+            return await _context.Users.AnyAsync(x => x.UserName.ToLower() == username.ToLower());
         }
     }
 
