@@ -7,13 +7,14 @@ import { AccountService } from '../_services/account.service';
 import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgIf, AsyncPipe} from '@angular/common';
+import { HasRoleDirective } from '../_directives/has-role.directive';
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     styleUrls: ['./nav.component.css'],
     standalone: true,
-    imports: [RouterLink, RouterLinkActive, NgIf, BsDropdownModule, FormsModule, AsyncPipe]
+    imports: [RouterLink, RouterLinkActive, NgIf, BsDropdownModule, FormsModule, AsyncPipe, HasRoleDirective]
 })
 export class NavComponent implements OnInit {
 
