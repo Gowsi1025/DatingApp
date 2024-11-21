@@ -3,6 +3,7 @@ import { Member } from 'src/app/_models/member';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { LikesService } from 'src/app/_services/likes.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
     selector: 'app-member-card',
@@ -13,8 +14,10 @@ import { LikesService } from 'src/app/_services/likes.service';
 })
 export class MemberCardComponent {
   private likeService = inject(LikesService);
+  private presenceService = inject(PresenceService);
   member = input.required<Member>();
   hasliked = computed(() => this.likeService.likeIds().includes(this.member().id))
+  isOnline = computed(() => this.presenceService.onlineUsers().includes(this.member().username));
   
   toggleLike() {
     this.likeService.toggleLike(this.member().id).subscribe({
