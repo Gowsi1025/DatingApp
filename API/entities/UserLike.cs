@@ -1,5 +1,3 @@
-using System;
-
 namespace API.entities;
 
 public class UserLike

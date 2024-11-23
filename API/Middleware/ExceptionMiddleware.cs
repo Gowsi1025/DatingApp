@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json;
 using API.Errors;
-using Microsoft.Extensions.Logging;
 
 namespace API.Middleware
 {

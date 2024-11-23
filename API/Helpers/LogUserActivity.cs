@@ -1,4 +1,3 @@
-using System;
 using API.Extentions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;

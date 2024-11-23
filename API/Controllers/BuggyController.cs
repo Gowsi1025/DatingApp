@@ -2,8 +2,6 @@ using API.Data;
 using API.entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using SQLitePCL;
 
 namespace API.Controllers
 {

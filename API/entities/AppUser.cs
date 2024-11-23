@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using API.Extentions;
 using Microsoft.AspNetCore.Identity;
 
 namespace API.entities

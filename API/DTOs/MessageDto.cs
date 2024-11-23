@@ -1,5 +1,3 @@
-using API.entities;
-
 namespace API.DTOs;
 
 public class MessageDto
