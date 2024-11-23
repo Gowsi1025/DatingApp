@@ -1,9 +1,7 @@
 import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
-import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
 import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
