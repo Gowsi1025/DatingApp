@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, inject, input, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
-import { MessagesService } from 'src/app/_services/messages.service';
+import { MessageService } from 'src/app/_services/messages.service';
 
 @Component({
   selector: 'app-member-messages',
@@ -13,7 +13,7 @@ import { MessagesService } from 'src/app/_services/messages.service';
 export class MemberMessagesComponent implements AfterViewChecked{
   @ViewChild('messageForm') messageForm?: NgForm;
   @ViewChild('scrollMe') scrollContainer?: any;
-  messageService = inject(MessagesService);
+  messageService = inject(MessageService);
   username= input.required<string>();
   messageContent = '';
 

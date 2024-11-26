@@ -26,7 +26,7 @@ namespace API.Controllers
 
             return new UserDto
             {
-                UserName = user.UserName,
+                Username = user.UserName,
                 Token = await tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 KnownAs = user.KnownAs,
@@ -47,7 +47,7 @@ namespace API.Controllers
             if(!result) return Unauthorized();
             return new UserDto
             {
-                UserName = user.UserName,
+                Username = user.UserName,
                 KnownAs = user.KnownAs,
                 Token = await tokenService.CreateToken(user),
                 Gender = user.Gender,

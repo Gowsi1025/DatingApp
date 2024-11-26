@@ -1,7 +1,7 @@
+using API;
 using API.Data;
 using API.entities;
 using API.Extentions;
-using API.Middleware;
 using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

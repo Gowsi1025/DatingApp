@@ -1,25 +1,28 @@
+import { Injectable, inject, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { PaginatedResult } from '../_models/pagination';
 import { Message } from '../_models/message';
-import { SetPaginatedResponse, SetPaginationHeaders } from './paginationHelper';
+import {  SetPaginatedResponse, SetPaginationHeaders } from './paginationHelper';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { User } from '../_models/user';
 import { Group } from '../_models/group';
+import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessagesService {
-  baseurl = environment.apiUrl;
+export class MessageService {
+  baseUrl = environment.apiUrl;
   hubUrl = environment.hubsUrl;
   private http = inject(HttpClient);
-  hubConnection? : HubConnection;
+  private busyService = inject(BusyService);
+  hubConnection?: HubConnection;
   paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
   messageThread = signal<Message[]>([]);
 
   createHubConnection(user: User, otherUsername: string) {
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
         accessTokenFactory: () => user.token
@@ -27,7 +30,9 @@ export class MessagesService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch(error => console.log(error))
+    this.hubConnection.start()
+      .catch(error => console.log(error))
+      .finally(() => this.busyService.idle());
 
     this.hubConnection.on('ReceiveMessageThread', messages => {
       this.messageThread.set(messages)
@@ -57,18 +62,19 @@ export class MessagesService {
     }
   }
 
-  getMessages(pageNumber: number, pageSize: number, container: string){
+  getMessages(pageNumber: number, pageSize: number, container: string) {
     let params = SetPaginationHeaders(pageNumber, pageSize);
-    params = params.append('container', container);
-    return this.http.get<Message[]>(this.baseurl + 'messages', {observe: 'response', params}).subscribe({
-      next: response => SetPaginatedResponse(response, this.paginatedResult)
-    })
+
+    params = params.append('Container', container);
+
+    return this.http.get<Message[]>(this.baseUrl + 'messages', {observe: 'response', params})
+      .subscribe({
+        next: response => SetPaginatedResponse(response, this.paginatedResult)
+      })
   }
 
-  
-
-  getMessageThread(username : string){
-    return this.http.get<Message[]>(this.baseurl +  'messages/thread/' + username);
+  getMessageThread(username: string) {
+    return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
 
   async sendMessage(username: string, content: string) {
@@ -76,7 +82,6 @@ export class MessagesService {
   }
 
   deleteMessage(id: number) {
-    return this.http.delete(this.baseurl + 'messages/'+ id);
+    return this.http.delete(this.baseUrl + 'messages/' + id);
   }
-  
 }

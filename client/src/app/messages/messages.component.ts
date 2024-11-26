@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MessagesService } from '../_services/messages.service';
+import { MessageService } from '../_services/messages.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
@@ -15,7 +15,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     imports: [ButtonsModule, FormsModule, TimeagoModule, RouterLink, PaginationModule]
 })
 export class MessagesComponent implements OnInit {
-    messageService = inject(MessagesService);
+    messageService = inject(MessageService);
     container = 'Inbox';
     pageNumber = 1;
     pageSize =5;
